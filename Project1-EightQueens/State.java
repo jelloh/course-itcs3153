@@ -59,6 +59,11 @@ public class State{
         }
   }
 
+  public boolean isGoal(){
+    if(heuristic == 0) return true;
+    else return false;
+  }
+
   private int checkHeuristic(){
     int conflicts = 0;
     for(int i = 0; i < N; i++){

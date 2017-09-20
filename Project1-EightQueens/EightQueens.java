@@ -8,7 +8,7 @@
   * implement the Hill-Climbing algorithm with random restarts...
   *
   * Steps:
-  * 1 - Place each queen randomly in its column.
+  * 1 - Place each queen randomly in its column. ------------------------------------ done
   * 2 - Check for goal state right away (no queens in conflict)
   * 3 - Evaluate all possible neighbor states by moving each queen
   *     up and down it's column. Keep track of each heuristic value.
@@ -23,7 +23,34 @@
 public class EightQueens{
 
   public static void main(String[] args){
+    // Variables
+    int restarts = 0;
+    int stateChanges = 0;
 
+    State state = new State(8);
+
+    while(!state.isGoal()){
+      System.out.println("Current h: " + state.getHeuristic());
+      System.out.println("Current State");
+      System.out.println(state.toString());
+      if(state.isGoal()){
+        System.out.println("Solution Found!");
+        System.out.println("State changes: " + stateChanges);
+        System.out.println("Restarts: " + restarts);
+      }
+      else
+        System.out.println("Neighbors found with lower h: " + " .....................");
+
+      state = new State(8);
+    }
+
+
+  }
+}
+
+
+
+/*
     // Testing stuff
     State state = new State(4);
     System.out.println("\n\n" +state.toString());
@@ -42,7 +69,7 @@ public class EightQueens{
     }
 
     System.out.println(state.getHeuristic());
-
+*/
     /*
         for(int i = 0; i < N; i++){
           for(int j = 0; j < N; j++){
@@ -54,8 +81,3 @@ public class EightQueens{
           }
         }
     */
-
-
-
-  }
-}
