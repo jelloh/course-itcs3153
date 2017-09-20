@@ -25,11 +25,11 @@ public class EightQueens{
   public static void main(String[] args){
 
     // Testing stuff
-    State state = new State();
-    System.out.println(state.toString());
+    State state = new State(4);
+    System.out.println("\n\n" +state.toString());
 
-    for(int i = 0; i < 8; i++){
-      for(int j = 0; j < 8; j++){
+    for(int i = 0; i < 3; i++){
+      for(int j = 0; j < 3; j++){
         if(state.getGrid()[i][j] == 1){
           System.out.println(state.checkVertical(i,j) + " ...vertical");
 
@@ -40,6 +40,20 @@ public class EightQueens{
         }
       }
     }
+
+    System.out.println(state.getHeuristic());
+
+    /*
+        for(int i = 0; i < N; i++){
+          for(int j = 0; j < N; j++){
+            if(state.getGrid()[i][j] == 1){
+              conflicits += checkHorizontal(i,j);
+              conflicits += checkVertical(i,j);
+              conflicits += checkDiagonal(i,j);
+            }
+          }
+        }
+    */
 
 
 

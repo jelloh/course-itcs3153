@@ -11,20 +11,23 @@ public class State{
   // --------------------------------------------------------------------------
   // CONSTRUCTORS -------------------------------------------------------------
 
-  /* Default constructor. Random generates a new state. */
+  /* Default Constructor. Randomly generates a new state of size 8. */
   public State(){
-    // Start with all 0's
-    for(int i = 0; i < N; i++){
-      for(int j = 0; j < N; j++){
-        grid[i][j] = 0;
-      }
-    }
+    // New grid generated
+    generateRandomGrid();
+    // Immediately check and save the heuristic value
+    this.heuristic = checkHeuristic();
+  }
 
-    // Place 8 queens (value of 1) in random row per column
-    for(int i = 0; i < N; i++){
-      int rand = (int)(Math.random()*8);
-      grid[rand][i] = 1;
-    }
+  /*  Constructor. Randomly generates a new state of size N.
+   * @param int n to determine the size of the grid
+   */
+  public State(int n){
+    this.N = n;
+    // New grid generated
+    generateRandomGrid();
+    // Immediately check and save the heuristic value
+    this.heuristic = checkHeuristic();
   }
 
   // --------------------------------------------------------------------------
@@ -41,61 +44,90 @@ public class State{
   // --------------------------------------------------------------------------
   // SUPPORTING STUFF :^) -----------------------------------------------------
 
-  private int checkHeuristic(){
-    return 0;
+  private void generateRandomGrid(){
+        // Start with all 0's
+        for(int i = 0; i < N; i++){
+          for(int j = 0; j < N; j++){
+            grid[i][j] = 0;
+          }
+        }
+
+        // Place 8 queens (value of 1) in random row per column
+        for(int i = 0; i < N; i++){
+          int rand = (int)(Math.random()*N);
+          grid[rand][i] = 1;
+        }
   }
 
-  /* @return - False if there is a confict vertically, true otherwise
+  private int checkHeuristic(){
+    int conflicts = 0;
+    for(int i = 0; i < N; i++){
+      for(int j = 0; j < N; j++){
+        if(grid[i][j] == 1){
+          conflicts += checkHorizontal(i,j);
+          conflicts += checkVertical(i,j);
+          conflicts += checkDiagonal(i,j);
+        }
+      }
+    }
+
+    return conflicts/2;
+  }
+
+  /* @return - The number of conflicts that arise veritcally
    * @param - row and column of the queen to checkVertical
    */
-  public boolean checkVertical(int row, int column){
-    System.out.print("Queen at " + row + ", " + column + "...");
+  private int checkVertical(int row, int column){
+    //System.out.print("Queen at " + row + ", " + column + "...");
+    int conflicts = 0;
 
     for(int i = 0; i < N; i++){
       if(i == row) continue;
-      if(grid[i][column] == 1) return false;
+      if(grid[i][column] == 1) conflicts++;
     }
 
-    return true;
+    return conflicts;
   }
 
-  /* @return - False if there is a confict horizontally, true otherwise
+  /* @return - The number of conflicts that arise horizontally
    * @param - row and column of the queen to checkVertical
    */
-  public boolean checkHorizontal(int row, int column){
-    System.out.print("Queen at " + row + ", " + column + "...");
+  private int checkHorizontal(int row, int column){
+    //System.out.print("Queen at " + row + ", " + column + "...");
+    int conflicts = 0;
 
     for(int i = 0; i < N; i++){
       if(i == column) continue;
-      if(grid[row][i] == 1) return false;
+      if(grid[row][i] == 1) conflicts++;
     }
 
-    return true;
+    return conflicts;
   }
 
-  /* @return - False if there is a confict diagonally, true otherwise
+  /* @return - The number of conflicts that arise diagonally
    * @param - row and column of the queen to checkVertical
    */
-  public boolean checkDiagonal(int row, int column){
-    System.out.print("Queen at " + row + ", " + column + "...");
+  private int checkDiagonal(int row, int column){
+    //System.out.print("Queen at " + row + ", " + column + "...");
+    int conflicts = 0;
 
     for(int i = row-1, j = column-1; i >= 0 && j >= 0; i--, j--){
-      if(grid[i][j] == 1) return false;
+      if(grid[i][j] == 1) conflicts++;
     }
 
     for(int i = row+1, j = column+1; i < N && j < N; i++, j++){
-      if(grid[i][j] == 1) return false;
+      if(grid[i][j] == 1) conflicts++;
     }
 
     for(int i = row+1, j = column-1; i < N && j >= 0; i++, j--){
-      if(grid[i][j] == 1) return false;
+      if(grid[i][j] == 1) conflicts++;
     }
 
     for(int i = row-1, j = column+1; i >= 0 && j < N; i--, j++){
-      if(grid[i][j] == 1) return false;
+      if(grid[i][j] == 1) conflicts++;
     }
 
-    return true;
+    return conflicts;
   }
 
 
