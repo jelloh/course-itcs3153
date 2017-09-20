@@ -17,14 +17,14 @@ public class State{
 
     // Place 8 queens (value of 1)
     for(int i = 0; i < grid.length; i++){
-      int rand = (int)(Math.random()*9):
+      int rand = (int)(Math.random()*9);
       grid[i][rand] = 1;
     }
   }
 
 
 
-  public toString(){
+  public String toString(){
     String strGrid = "";
     for(int i = 0; i < grid.length; i++){
       for(int j = 0; j < grid[i].length; j++){
