@@ -21,8 +21,27 @@
 
 
 public class EightQueens{
+
   public static void main(String[] args){
+
+    // Testing stuff
     State state = new State();
     System.out.println(state.toString());
+
+    for(int i = 0; i < 8; i++){
+      for(int j = 0; j < 8; j++){
+        if(state.getGrid()[i][j] == 1){
+          System.out.println(state.checkVertical(i,j) + " ...vertical");
+
+          System.out.println(state.checkHorizontal(i,j) + "...horizontal");
+
+          System.out.println(state.checkDiagonal(i,j) + "...diagonal");
+          System.out.println();
+        }
+      }
+    }
+
+
+
   }
 }
