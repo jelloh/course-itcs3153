@@ -18,3 +18,11 @@
   * Heuristic: How far away you are from the goal. In this case, it is
   *            # of conflicts.
   */
+
+
+public class EightQueens{
+  public static void main(String[] args){
+    State state = new State();
+    System.out.println(state.toString());
+  }
+}
