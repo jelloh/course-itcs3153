@@ -9,7 +9,7 @@
   *
   * Steps:
   * 1 - Place each queen randomly in its column. ------------------------------------ done
-  * 2 - Check for goal state right away (no queens in conflict)
+  * 2 - Check for goal state right away (no queens in conflict) --------------------- done(?)
   * 3 - Evaluate all possible neighbor states by moving each queen
   *     up and down it's column. Keep track of each heuristic value.
   * 4 - If a lower heuristic was NOT found, restarts
@@ -19,6 +19,7 @@
   *            # of conflicts.
   */
 
+import java.util.*;
 
 public class EightQueens{
 
@@ -26,23 +27,26 @@ public class EightQueens{
     // Variables
     int restarts = 0;
     int stateChanges = 0;
+    final int SIZE = 8;
 
-    State state = new State(8);
+    State currentState = new State();
 
-    while(!state.isGoal()){
-      System.out.println("Current h: " + state.getHeuristic());
+    // Loop through once
+    // And then stop looping once goal state has been reached
+    do {
+      System.out.println("Current h: " + currentState.getHeuristic());
       System.out.println("Current State");
-      System.out.println(state.toString());
-      if(state.isGoal()){
+      System.out.println(currentState.toString());
+      if(currentState.isGoal()){
         System.out.println("Solution Found!");
         System.out.println("State changes: " + stateChanges);
-        System.out.println("Restarts: " + restarts);
+        System. out.println("Restarts: " + restarts);
       }
       else
         System.out.println("Neighbors found with lower h: " + " .....................");
 
-      state = new State(8);
-    }
+      currentState = new State();
+    } while(!currentState.isGoal());
 
 
   }
@@ -51,7 +55,7 @@ public class EightQueens{
 
 
 /*
-    // Testing stuff
+    // Testing stuff 1 ----------------------------------------------------------------------
     State state = new State(4);
     System.out.println("\n\n" +state.toString());
 
@@ -81,3 +85,30 @@ public class EightQueens{
           }
         }
     */
+
+
+/* Testing Stuff 2 --------------------------------------------------------------------------
+    int[][] g = {{0, 1, 0, 0},
+                 {1, 0, 0, 0},
+                 {0, 0, 1, 0},{0, 0, 0, 1}};
+
+    State currentState = new State(g);
+    System.out.println(currentState.toString());
+
+    HashMap h = currentState.getAllNeighbors();
+    System.out.println(h.size());
+
+    // Get a set of the entries
+    Set set = h.entrySet();
+
+    // Get an iterator
+    Iterator i = set.iterator();
+
+    // Display elements
+    while(i.hasNext()) {
+       Map.Entry me = (Map.Entry)i.next();
+       System.out.print(me.getKey() + ": ");
+       System.out.println(me.getValue());
+    }
+    System.out.println();
+*/
