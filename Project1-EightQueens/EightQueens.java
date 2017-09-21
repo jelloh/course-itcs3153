@@ -9,11 +9,11 @@
   *
   * Steps:
   * 1 - Place each queen randomly in its column. ------------------------------------ done
-  * 2 - Check for goal state right away (no queens in conflict) --------------------- done(?)
-  * 3 - Evaluate all possible neighbor states by moving each queen
+  * 2 - Check for goal state right away (no queens in conflict) --------------------- done
+  * 3 - Evaluate all possible neighbor states by moving each queen ------------------ done
   *     up and down it's column. Keep track of each heuristic value.
-  * 4 - If a lower heuristic was NOT found, restarts
-  * 5 - Else, update current state to the newly found lower heuristic state
+  * 4 - If a lower heuristic was NOT found, restarts -------------------------------- done
+  * 5 - Else, update current state to the newly found lower heuristic state --------- done
   *
   * Heuristic: How far away you are from the goal. In this case, it is
   *            # of conflicts.
@@ -29,53 +29,51 @@ public class EightQueens{
     int stateChanges = 0;
     final int SIZE = 8;
 
-    State currentState = new State(4);
+    State currentState = new State(SIZE);
 
     //State currentState = new State();
 
-    // While Loop for restarts
+    // While Loop
     while(!currentState.isGoal()) {
-      while(!currentState.isGoal()){
-        int h = currentState.getHeuristic();
-        // Display info (current state and its heuristic)
-        System.out.println("Current h: " + h);
-        System.out.println("Current State");
-        System.out.println(currentState.toString());
+      int h = currentState.getHeuristic();
+      // Display info (current state and its heuristic)
+      System.out.println("Current h: " + h);
+      System.out.println("Current State");
+      System.out.println(currentState.toString());
 
-        // Info of state's neighbors
-        HashMap neighbors = currentState.getAllNeighbors();
-        Set set = neighbors.entrySet();
-        Iterator i = set.iterator();
+      // Info of state's neighbors
+      HashMap neighbors = currentState.getAllNeighbors();
+      Set set = neighbors.entrySet();
+      Iterator i = set.iterator();
 
-        int lowerNeighbors = 0;               // # of neighbors with lower heuristic
-        State lowestNeighbor = currentState;  // The lowest neighbor
+      int lowerNeighbors = 0;               // # of neighbors with lower heuristic
+      State lowestNeighbor = currentState;  // The lowest neighbor
 
-        // Loop through to find # of lower neighbors and the lowest one
-        while(i.hasNext()){
-          Map.Entry me = (Map.Entry)i.next();
-          if((int)(me.getValue()) < h) lowerNeighbors++;
-          if(((State)me.getKey()).getHeuristic() < lowestNeighbor.getHeuristic())
-            lowestNeighbor = (State)me.getKey();
-        }
+      // Loop through to find # of lower neighbors and the lowest one
+      while(i.hasNext()){
+        Map.Entry me = (Map.Entry)i.next();
+        if((int)(me.getValue()) < h) lowerNeighbors++;
+        if(((State)me.getKey()).getHeuristic() < lowestNeighbor.getHeuristic())
+          lowestNeighbor = (State)me.getKey();
+      }
 
-        System.out.println("Neighbors found with lower h: " + lowerNeighbors);
+      System.out.println("Neighbors found with lower h: " + lowerNeighbors);
 
-        // If no lower neighbors, then restart and generate a new random state
-        if(lowerNeighbors == 0){
-          System.out.println("RESTART");
-          currentState = new State(4);
-          restarts ++;
-          break;
-        }
-        // Otherise, set currentState to the lowest neighbor and keep checking states
-        else {
-          System.out.println("Setting new current state\n");
-          currentState = lowestNeighbor;
-          stateChanges++;
-        }
+      // If no lower neighbors, then restart and generate a new random state
+      if(lowerNeighbors == 0){
+        System.out.println("RESTART");
+        currentState = new State(SIZE);
+        restarts ++;
+      }
+      // Otherise, set currentState to the lowest neighbor and keep checking states
+      else {
+        System.out.println("Setting new current state\n");
+        currentState = lowestNeighbor;
+        stateChanges++;
+      }
 
-      } // end state change loop
-    } // end restart loop
+    } // end while loop
+
 
     // Display solution and info
     System.out.println(currentState.toString());
