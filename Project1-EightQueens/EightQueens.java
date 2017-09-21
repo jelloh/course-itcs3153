@@ -29,86 +29,59 @@ public class EightQueens{
     int stateChanges = 0;
     final int SIZE = 8;
 
-    State currentState = new State();
+    State currentState = new State(4);
 
-    // Loop through once
-    // And then stop looping once goal state has been reached
-    do {
-      System.out.println("Current h: " + currentState.getHeuristic());
-      System.out.println("Current State");
-      System.out.println(currentState.toString());
-      if(currentState.isGoal()){
-        System.out.println("Solution Found!");
-        System.out.println("State changes: " + stateChanges);
-        System. out.println("Restarts: " + restarts);
-      }
-      else
-        System.out.println("Neighbors found with lower h: " + " .....................");
+    //State currentState = new State();
 
-      currentState = new State();
-    } while(!currentState.isGoal());
+    // While Loop for restarts
+    while(!currentState.isGoal()) {
+      while(!currentState.isGoal()){
+        int h = currentState.getHeuristic();
+        // Display info (current state and its heuristic)
+        System.out.println("Current h: " + h);
+        System.out.println("Current State");
+        System.out.println(currentState.toString());
 
+        // Info of state's neighbors
+        HashMap neighbors = currentState.getAllNeighbors();
+        Set set = neighbors.entrySet();
+        Iterator i = set.iterator();
+
+        int lowerNeighbors = 0;               // # of neighbors with lower heuristic
+        State lowestNeighbor = currentState;  // The lowest neighbor
+
+        // Loop through to find # of lower neighbors and the lowest one
+        while(i.hasNext()){
+          Map.Entry me = (Map.Entry)i.next();
+          if((int)(me.getValue()) < h) lowerNeighbors++;
+          if(((State)me.getKey()).getHeuristic() < lowestNeighbor.getHeuristic())
+            lowestNeighbor = (State)me.getKey();
+        }
+
+        System.out.println("Neighbors found with lower h: " + lowerNeighbors);
+
+        // If no lower neighbors, then restart and generate a new random state
+        if(lowerNeighbors == 0){
+          System.out.println("RESTART");
+          currentState = new State(4);
+          restarts ++;
+          break;
+        }
+        // Otherise, set currentState to the lowest neighbor and keep checking states
+        else {
+          System.out.println("Setting new current state\n");
+          currentState = lowestNeighbor;
+          stateChanges++;
+        }
+
+      } // end state change loop
+    } // end restart loop
+
+    // Display solution and info
+    System.out.println(currentState.toString());
+    System.out.println("Solution Found!");
+    System.out.println("State changes: " + stateChanges);
+    System. out.println("Restarts: " + restarts);
 
   }
 }
-
-
-
-/*
-    // Testing stuff 1 ----------------------------------------------------------------------
-    State state = new State(4);
-    System.out.println("\n\n" +state.toString());
-
-    for(int i = 0; i < 3; i++){
-      for(int j = 0; j < 3; j++){
-        if(state.getGrid()[i][j] == 1){
-          System.out.println(state.checkVertical(i,j) + " ...vertical");
-
-          System.out.println(state.checkHorizontal(i,j) + "...horizontal");
-
-          System.out.println(state.checkDiagonal(i,j) + "...diagonal");
-          System.out.println();
-        }
-      }
-    }
-
-    System.out.println(state.getHeuristic());
-*/
-    /*
-        for(int i = 0; i < N; i++){
-          for(int j = 0; j < N; j++){
-            if(state.getGrid()[i][j] == 1){
-              conflicits += checkHorizontal(i,j);
-              conflicits += checkVertical(i,j);
-              conflicits += checkDiagonal(i,j);
-            }
-          }
-        }
-    */
-
-
-/* Testing Stuff 2 --------------------------------------------------------------------------
-    int[][] g = {{0, 1, 0, 0},
-                 {1, 0, 0, 0},
-                 {0, 0, 1, 0},{0, 0, 0, 1}};
-
-    State currentState = new State(g);
-    System.out.println(currentState.toString());
-
-    HashMap h = currentState.getAllNeighbors();
-    System.out.println(h.size());
-
-    // Get a set of the entries
-    Set set = h.entrySet();
-
-    // Get an iterator
-    Iterator i = set.iterator();
-
-    // Display elements
-    while(i.hasNext()) {
-       Map.Entry me = (Map.Entry)i.next();
-       System.out.print(me.getKey() + ": ");
-       System.out.println(me.getValue());
-    }
-    System.out.println();
-*/

@@ -4,8 +4,8 @@ public class State{
 
   // --------------------------------------------------------------------------
 
-  private int N = 8; // Size of grid. Default to 8
-  private int grid[][] = new int[N][N];
+  private int N; // Size of grid. Default to 8
+  private int grid[][];
   private int heuristic;
 
   // --------------------------------------------------------------------------
@@ -13,6 +13,9 @@ public class State{
 
   /* Default Constructor. Randomly generates a new state of size 8. */
   public State(){
+    this.N = 8;
+    grid = new int[N][N];
+
     // New grid generated
     generateRandomGrid();
     // Immediately check and save the heuristic value
@@ -24,6 +27,8 @@ public class State{
    */
   public State(int n){
     this.N = n;
+    grid = new int[N][N];
+
     // New grid generated
     generateRandomGrid();
     // Immediately check and save the heuristic value
@@ -192,7 +197,7 @@ public class State{
       strGrid += "\n";
     }
 
-    return strGrid;
+    return strGrid.substring(0, strGrid.length() - 2);
   }
 
   // --------------------------------------------------------------------------
