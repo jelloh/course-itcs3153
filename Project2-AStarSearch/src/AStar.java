@@ -4,14 +4,15 @@ public class AStar {
 
     private Node[][] nodes;
 
-    // Do these have to use min heap ?!? -------------------------------------------- check later
     private ArrayList<Node> openList;
     private ArrayList<Node> closedList;
+    private ArrayList<Node> path;
 
     private Node start;
     private Node goal;
 
     private int boundary;
+    private boolean pathFound = false;
 
     /**
      *
@@ -45,13 +46,12 @@ public class AStar {
     }
 
     /**
-     * Main part of A*
+     * Main part of A* Search
      */
     private void PotatoesAreYummy(){
 
         Node current; // = start;
         //openList.remove(start);
-        boolean pathFound = false;
 
         while(openList.size() != 0){ // TEEHEE
 
@@ -62,12 +62,13 @@ public class AStar {
             // Step 2: Check if current node is the goal
             if(current.equals(goal)){
                 // If so, generate the path
+                pathFound = true;
                 generatePath();
-                break;
             }
 
             // Generate Neighbors
             generateNeighbors(current);
+            closedList.add(current);
 
         }
 
@@ -81,53 +82,71 @@ public class AStar {
 
         for(int i = 0; i < 8; i++){
             Node check;
-            switch(i){
-                case 0:
-                    check = nodes[r + 1][c]; // Below
-                    break;
-                case 1:
-                    check = nodes[r-1][c]; // Above
-                    break;
-                case 2:
-                    check = nodes[r][c+1]; // Right
-                    break;
-                case 3:
-                    check = nodes[r][c-1]; // Left
-                    break;
-                case 4:
-                    check = nodes[r-1][c+1]; // Top Right
-                    break;
-                case 5:
-                    check = nodes[r-1][c-1]; // Top Left
-                    break;
-                case 6:
-                    check = nodes[r+1][c+1]; // Bottom Right
-                    break;
-                default:
-                    check = nodes[r+1][c-1]; // Bottom Left
-                    break;
+            try {
+                switch (i) {
+                    case 0:
+                        check = nodes[r + 1][c]; // Below
+                        break;
+                    case 1:
+                        check = nodes[r - 1][c]; // Above
+                        break;
+                    case 2:
+                        check = nodes[r][c + 1]; // Right
+                        break;
+                    case 3:
+                        check = nodes[r][c - 1]; // Left
+                        break;
+                    case 4:
+                        check = nodes[r - 1][c + 1]; // Top Right
+                        break;
+                    case 5:
+                        check = nodes[r - 1][c - 1]; // Top Left
+                        break;
+                    case 6:
+                        check = nodes[r + 1][c + 1]; // Bottom Right
+                        break;
+                    default:
+                        check = nodes[r + 1][c - 1]; // Bottom Left
+                        break;
+                }
+            }
+            catch(IndexOutOfBoundsException e){
+                continue;
             }
 
             if(isValid(check)){
-                // Set G
+
+                int moveCost = n.getG();
                 if(i < 4){
-                    check.setG(10); // 10 for up, down, left, right
+                    moveCost += 10; // 10 for up, down, left, right
                 }
                 else{
-                    check.setG(14); // 14 for diagonals
+                    moveCost += 14; // 14 for diagonals
                 }
 
-                // Set H
-                check.setH(calculateHeuristic(check));
+                // Only update if G-value is less than previous value
+                // (or G-value did not exist previously)
+                if(check.getG() == 0 ||
+                        (check.getG() > 0 && moveCost < check.getG())){
 
-                // Set F
-                check.setF();
+                    // Set G
+                    check.setG(moveCost);
 
-                // Set Parent
-                check.setParent(n);
+                    // Set H
+                    check.setH(calculateHeuristic(check));
 
-                // Add to Open List
-                openList.add(check);
+                    // Set F
+                    check.setF();
+
+                    // Set Parent
+                    check.setParent(n);
+
+                    // Don't add duplicates (not sure if if-statement is necessary)
+                    if(!openList.contains(check)) {
+                        // Add to Open List
+                        openList.add(check);
+                    }
+                }
 
             }
 
@@ -136,7 +155,26 @@ public class AStar {
     }
 
     private void generatePath(){
+        path = new ArrayList<>();
 
+        Node current = goal;
+        while(current.getParent() != null){
+            path.add(current);
+            current = current.getParent();
+        }
+        path.add(current); // add start node still :')
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Get Methods
+    ///////////////////////////////////////////////////////////////////////////
+
+    public ArrayList<Node> getPath() {
+        return path;
+    }
+
+    public boolean isPathFound() {
+        return pathFound;
     }
 
     ///////////////////////////////////////////////////////////////////////////

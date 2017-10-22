@@ -18,7 +18,7 @@ public class Map {
     
     private Node[][] nodes; // Use for A* and generating values
 
-    private ArrayList<Node> path = new ArrayList<>(); // Use to hold the path
+    private ArrayList<Node> path; // Use to hold the path
 
     public static final String UNPATHABLE = "x";
     public static final String PATHABLE = "-";
@@ -75,6 +75,41 @@ public class Map {
 
     public void generatePath(int startRow, int startCol, int goalRow, int goalCol){
         AStar a = new AStar(nodes, startRow, startCol, goalRow, goalCol, mapSize);
+
+        if(a.isPathFound()) {
+            path = a.getPath();
+        }
+        else path = null;
+    }
+
+    public String displayPath(){
+        if(path == null){
+            return "No path was found";
+        }
+        else{
+            String result = "";
+            for(int i = path.size() - 1; i >= 0; i--){
+                result += path.get(i).toString() + " ";
+            }
+            return result;
+        }
+    }
+
+    public void updateMap(){
+        if(path != null){
+            int counter = 1;
+
+
+            for(int i = path.size() - 1; i >= 0; i--){
+               Node next = path.get(i);
+               int r = next.getRow();
+               int c = next.getCol();
+               map[r][c] = ""+ counter;
+               counter++;
+
+            }
+
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -103,16 +138,17 @@ public class Map {
     
     public String toString() {
         String result = "";
-        /*
+
+        result += "\t";
         for (int i = 0; i < mapSize; i++){
             result += i + "\t";
         }
         result += "\n";
-        */
+
         for (int i = 0; i < mapSize; i++) {
-            //result += i + "\t";
+            result += i + "\t";
             for (int j = 0; j < mapSize; j++) {
-                result += map[i][j] + " ";
+                result += map[i][j] + "\t";
             }
             result += "\n";
         }

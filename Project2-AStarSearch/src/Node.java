@@ -1,6 +1,6 @@
 public class Node {
 	
-	private int row, col, f, g, h, type;
+	private int row, col, f, g = 0, h, type;
 	private Node parent;
 
 	public static final int PATHABLE = 0, UNPATHABLE = 1;

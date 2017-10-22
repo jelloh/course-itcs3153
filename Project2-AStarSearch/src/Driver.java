@@ -32,7 +32,6 @@ public class Driver {
         int startRow = scan.nextInt();
         System.out.print("Column: ");
         int startColumn = scan.nextInt();
-        map.setElement(startRow,startColumn,"s");
 
         while((map.getType(startRow,startColumn)).equals(Map.UNPATHABLE)){
             System.out.println("\nCannot choose a blocked area as a starting position.\n" +
@@ -44,6 +43,8 @@ public class Driver {
             map.setElement(startRow,startColumn,"s");
         }
 
+        map.setElement(startRow,startColumn,"s");
+
         // ----------------------------------------------------------------------------------------------
         // Select Goal
         System.out.println("----------------------------------------");
@@ -53,7 +54,6 @@ public class Driver {
         int goalRow = scan.nextInt();
         System.out.print("Column: ");
         int goalColumn = scan.nextInt();
-        map.setElement(goalRow,goalColumn,"g");
 
         while((map.getType(goalRow, goalColumn)).equals(Map.UNPATHABLE)){
             System.out.println("\nCannot choose a blocked area as a goal position.\n" +
@@ -65,12 +65,23 @@ public class Driver {
             map.setElement(goalRow,goalColumn,"g");
         }
 
+        map.setElement(goalRow,goalColumn,"g");
+
         // ----------------------------------------------------------------------------------------------
-        // Display map again
+        // Display map again with Start and Goal labeled
         System.out.println("\n\n" + map.toString());
 
         // ----------------------------------------------------------------------------------------------
         map.generatePath(startRow,startColumn,goalRow,goalColumn);
+        System.out.println("Path to goal is...\n" + map.displayPath());
+
+        // ----------------------------------------------------------------------------------------------
+        // Display map again
+        System.out.println("\n----------------------------------------");
+        System.out.println("           Map with Path Shown.         ");
+        System.out.println("----------------------------------------");
+        map.updateMap();
+        System.out.println("\n\n" + map.toString());
 
 
     }
