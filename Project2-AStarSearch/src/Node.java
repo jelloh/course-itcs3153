@@ -46,7 +46,8 @@ public class Node {
 	public int getCol(){
 		return col;
 	}
-	
+	public int getType() { return type; }
+
 	public boolean equals(Object in){
 		//typecast to Node
 		Node n = (Node) in;

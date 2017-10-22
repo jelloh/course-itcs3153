@@ -13,12 +13,12 @@ import java.util.ArrayList;
 
 public class Map {
 
-    private String[][] map;
+    private String[][] map; // Use mostly for displaying map
     private int mapSize = 15; // Default size
     
-    private Node[][] nodes;
-    // Hold the path
-    private ArrayList<Node> path = new ArrayList<>();
+    private Node[][] nodes; // Use for A* and generating values
+
+    private ArrayList<Node> path = new ArrayList<>(); // Use to hold the path
 
     public static final String UNPATHABLE = "x";
     public static final String PATHABLE = "-";
@@ -71,6 +71,10 @@ public class Map {
                 nodes[i][j] = new Node(i, j, type);
             }
         }
+    }
+
+    public void generatePath(int startRow, int startCol, int goalRow, int goalCol){
+        AStar a = new AStar(nodes, startRow, startCol, goalRow, goalCol, mapSize);
     }
 
     ///////////////////////////////////////////////////////////////////////////

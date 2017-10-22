@@ -34,7 +34,7 @@ public class Driver {
         int startColumn = scan.nextInt();
         map.setElement(startRow,startColumn,"s");
 
-        while(!(map.getType(startRow,startColumn)).equals(Map.UNPATHABLE)){
+        while((map.getType(startRow,startColumn)).equals(Map.UNPATHABLE)){
             System.out.println("\nCannot choose a blocked area as a starting position.\n" +
                     "Choose again...");
             System.out.print("Row: ");
@@ -55,7 +55,7 @@ public class Driver {
         int goalColumn = scan.nextInt();
         map.setElement(goalRow,goalColumn,"g");
 
-        while(!(map.getType(startRow,startColumn)).equals(Map.UNPATHABLE)){
+        while((map.getType(goalRow, goalColumn)).equals(Map.UNPATHABLE)){
             System.out.println("\nCannot choose a blocked area as a goal position.\n" +
                     "Choose again...");
             System.out.print("Row: ");
@@ -70,6 +70,7 @@ public class Driver {
         System.out.println("\n\n" + map.toString());
 
         // ----------------------------------------------------------------------------------------------
+        map.generatePath(startRow,startColumn,goalRow,goalColumn);
 
 
     }
