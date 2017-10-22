@@ -17,6 +17,18 @@ public class Driver {
 
         // Generate Map
         Map map = new Map();
+
+        /* Another Map ror testing :') ~~
+        String[][] m = {{"-", "x", "x", "x", "x", "x"},
+                        {"-", "x", "x", "-", "-", "x"},
+                        {"-", "x", "-", "x", "-", "x"},
+                        {"-", "-", "x", "x", "-", "x"},
+                        {"x", "x", "x", "x", "-", "x"},
+                        {"x", "x", "-", "-", "-", "x"}};
+        Map map = new Map(m);
+        */
+
+
         // Display Map
         System.out.println("----------------------------------------");
         System.out.println("        This is the environment.        ");

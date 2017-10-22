@@ -20,8 +20,8 @@ public class Map {
 
     private ArrayList<Node> path; // Use to hold the path
 
-    public static final String UNPATHABLE = "x";
-    public static final String PATHABLE = "-";
+    public static String UNPATHABLE = "x";
+    public static String PATHABLE = "-";
 
     ///////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -40,6 +40,27 @@ public class Map {
         mapSize = size;
         map = new String[mapSize][mapSize];
         generateMap();
+        nodes = new Node[mapSize][mapSize];
+        generateNodes();
+    }
+
+    /** Choose map itself */
+    public Map(String[][] m){
+        this.map = m;
+        this.mapSize = m.length;
+
+        nodes = new Node[mapSize][mapSize];
+        generateNodes();
+    }
+
+    /** Choose map itself and symbols */
+    public Map(String[][] m, String path, String noPath){
+        UNPATHABLE = noPath;
+        PATHABLE = path;
+
+        this.map = m;
+        this.mapSize = m.length;
+
         nodes = new Node[mapSize][mapSize];
         generateNodes();
     }
