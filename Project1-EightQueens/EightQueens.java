@@ -27,7 +27,7 @@ public class EightQueens{
     // Variables
     int restarts = 0;
     int stateChanges = 0;
-    final int SIZE = 8;
+    final int SIZE = 10;
 
     State currentState = new State(SIZE);
 
