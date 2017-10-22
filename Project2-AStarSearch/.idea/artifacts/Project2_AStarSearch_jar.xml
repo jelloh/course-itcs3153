@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Project2-AStarSearch:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Project2_AStarSearch_jar</output-path>
+    <root id="archive" name="Project2-AStarSearch.jar">
+      <element id="module-output" name="Project2-AStarSearch" />
+    </root>
+  </artifact>
+</component>
