@@ -2,6 +2,8 @@ public class Node {
 	
 	private int row, col, f, g, h, type;
 	private Node parent;
+
+	private final int PATHABLE = 0, UNPATHABLE = 1;
    
 	public Node(int r, int c, int t){
 		row = r;
