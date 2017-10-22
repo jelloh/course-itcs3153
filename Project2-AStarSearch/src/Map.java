@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * @author Aileen Benedict
  * @version 10/22/2017
@@ -13,14 +15,24 @@ public class Map {
 
     private String[][] map;
     private int mapSize = 15; // Default size
+    
+    private Node[][] nodes;
+    // Hold the path
+    private ArrayList<Node> path = new ArrayList<>();
 
-    private final String UNPATHABLE = "x";
-    private final String PATHABLE = "-";
+    public static final String UNPATHABLE = "x";
+    public static final String PATHABLE = "-";
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Constructors
+    ///////////////////////////////////////////////////////////////////////////
+    
     /** Empty constructor */
     public Map(){
         map = new String[mapSize][mapSize];
         generateMap();
+        nodes = new Node[mapSize][mapSize];
+        generateNodes();
     }
 
     /** Choose map size */
@@ -28,8 +40,14 @@ public class Map {
         mapSize = size;
         map = new String[mapSize][mapSize];
         generateMap();
+        nodes = new Node[mapSize][mapSize];
+        generateNodes();
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Generate Stuff
+    ///////////////////////////////////////////////////////////////////////////
+    
     public void generateMap(){
         for(int i = 0; i < mapSize; i++){
             for(int j = 0; j < mapSize; j++){
@@ -45,7 +63,20 @@ public class Map {
             }
         }
     }
+    
+    private void generateNodes(){
+        for(int i = 0; i < mapSize; i++){
+            for(int j = 0; j < mapSize; j++){
+                int type = map[i][j].equals(PATHABLE)? Node.PATHABLE : Node.UNPATHABLE;
+                nodes[i][j] = new Node(i, j, type);
+            }
+        }
+    }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Getters and Setters
+    ///////////////////////////////////////////////////////////////////////////
+    
     public String[][] getMap() {
         return map;
     }
@@ -54,10 +85,18 @@ public class Map {
         return mapSize;
     }
 
+    public String getType(int row, int col){
+        return map[row][col];
+    }
+
     public void setElement(int row, int column, String symbol){
         map[row][column] = symbol;
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // To String
+    ///////////////////////////////////////////////////////////////////////////
+    
     public String toString() {
         String result = "";
         /*
@@ -76,4 +115,8 @@ public class Map {
 
         return result;
     }
+
+
+
+
 }

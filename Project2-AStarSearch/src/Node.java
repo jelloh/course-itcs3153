@@ -3,8 +3,8 @@ public class Node {
 	private int row, col, f, g, h, type;
 	private Node parent;
 
-	private final int PATHABLE = 0, UNPATHABLE = 1;
-   
+	public static final int PATHABLE = 0, UNPATHABLE = 1;
+
 	public Node(int r, int c, int t){
 		row = r;
 		col = c;
@@ -19,10 +19,10 @@ public class Node {
 	}
 	public void setG(int value){
 		g = value;
-	}
+	}		// Cost to move from Starting Node to node G
 	public void setH(int value){
 		h = value;
-	}
+	}		// Estimate Heuristic/cost to move from a node to the goal
 	public void setParent(Node n){
 		parent = n;
 	}
@@ -55,7 +55,7 @@ public class Node {
 	}
    
 	public String toString(){
-		return "Node: " + row + "_" + col;
+		return "(" + row + "," + col + ")";
 	}
 	
 }
