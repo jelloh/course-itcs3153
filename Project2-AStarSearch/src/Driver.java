@@ -18,13 +18,14 @@ public class Driver {
         // Generate Map
         Map map = new Map();
 
-        /* Another Map ror testing :') ~~
+        // Another Map ror testing :') ~~
+        /*
         String[][] m = {{"-", "x", "x", "x", "x", "x"},
                         {"-", "x", "x", "-", "-", "x"},
-                        {"-", "x", "-", "x", "-", "x"},
-                        {"-", "-", "x", "x", "-", "x"},
-                        {"x", "x", "x", "x", "-", "x"},
-                        {"x", "x", "-", "-", "-", "x"}};
+                        {"-", "x", "x", "x", "-", "x"},
+                        {"-", "-", "-", "x", "-", "x"},
+                        {"-", "x", "x", "x", "-", "x"},
+                        {"-", "-", "-", "-", "-", "x"}};
         Map map = new Map(m);
         */
 
@@ -35,66 +36,82 @@ public class Driver {
         System.out.println("----------------------------------------\n");
         System.out.println(map.toString() + "\n\n");
 
-        // ----------------------------------------------------------------------------------------------
-        // Select Start
-        System.out.println("----------------------------------------");
-        System.out.println("     Select your Starting Position.     ");
-        System.out.println("----------------------------------------");
-        System.out.print("Row: ");
-        int startRow = scan.nextInt();
-        System.out.print("Column: ");
-        int startColumn = scan.nextInt();
-
-        while((map.getType(startRow,startColumn)).equals(Map.UNPATHABLE)){
-            System.out.println("\nCannot choose a blocked area as a starting position.\n" +
-                    "Choose again...");
+        char goAgain = 'N';
+        do {
+            // ----------------------------------------------------------------------------------------------
+            // Select Start
+            System.out.println("----------------------------------------");
+            System.out.println("     Select your Starting Position.     ");
+            System.out.println("----------------------------------------");
             System.out.print("Row: ");
-            startRow = scan.nextInt();
+            int startRow = scan.nextInt();
             System.out.print("Column: ");
-            startColumn = scan.nextInt();
-            map.setElement(startRow,startColumn,"s");
-        }
+            int startColumn = scan.nextInt();
 
-        map.setElement(startRow,startColumn,"s");
+            while ((map.getType(startRow, startColumn)).equals(Map.UNPATHABLE)) {
+                System.out.println("\nCannot choose a blocked area as a starting position.\n" +
+                        "Choose again...");
+                System.out.print("Row: ");
+                startRow = scan.nextInt();
+                System.out.print("Column: ");
+                startColumn = scan.nextInt();
+                map.setElement(startRow, startColumn, "s");
+            }
 
-        // ----------------------------------------------------------------------------------------------
-        // Select Goal
-        System.out.println("----------------------------------------");
-        System.out.println("       Select your Goal Position.       ");
-        System.out.println("----------------------------------------");
-        System.out.print("Row: ");
-        int goalRow = scan.nextInt();
-        System.out.print("Column: ");
-        int goalColumn = scan.nextInt();
+            map.setElement(startRow, startColumn, "s");
 
-        while((map.getType(goalRow, goalColumn)).equals(Map.UNPATHABLE)){
-            System.out.println("\nCannot choose a blocked area as a goal position.\n" +
-                    "Choose again...");
+            // ----------------------------------------------------------------------------------------------
+            // Select Goal
+            System.out.println("----------------------------------------");
+            System.out.println("       Select your Goal Position.       ");
+            System.out.println("----------------------------------------");
             System.out.print("Row: ");
-            goalRow = scan.nextInt();
+            int goalRow = scan.nextInt();
             System.out.print("Column: ");
-            goalColumn = scan.nextInt();
-            map.setElement(goalRow,goalColumn,"g");
-        }
+            int goalColumn = scan.nextInt();
 
-        map.setElement(goalRow,goalColumn,"g");
+            while ((map.getType(goalRow, goalColumn)).equals(Map.UNPATHABLE)) {
+                System.out.println("\nCannot choose a blocked area as a goal position.\n" +
+                        "Choose again...");
+                System.out.print("Row: ");
+                goalRow = scan.nextInt();
+                System.out.print("Column: ");
+                goalColumn = scan.nextInt();
+                map.setElement(goalRow, goalColumn, "g");
+            }
 
-        // ----------------------------------------------------------------------------------------------
-        // Display map again with Start and Goal labeled
-        System.out.println("\n\n" + map.toString());
+            map.setElement(goalRow, goalColumn, "g");
 
-        // ----------------------------------------------------------------------------------------------
-        map.generatePath(startRow,startColumn,goalRow,goalColumn);
-        System.out.println("Path to goal is...\n" + map.displayPath());
+            // ----------------------------------------------------------------------------------------------
+            // Display map again with Start and Goal labeled
+            System.out.println("\n\n" + map.toString());
 
-        // ----------------------------------------------------------------------------------------------
-        // Display map again
-        System.out.println("\n----------------------------------------");
-        System.out.println("           Map with Path Shown.         ");
-        System.out.println("----------------------------------------");
-        map.updateMap();
-        System.out.println("\n\n" + map.toString());
+            // ----------------------------------------------------------------------------------------------
+            map.generatePath(startRow, startColumn, goalRow, goalColumn);
+            System.out.println("Path to goal is...\n" + map.displayPath());
 
+            // ----------------------------------------------------------------------------------------------
+            // Display map again
+            System.out.println("\n----------------------------------------");
+            System.out.println("           Map with Path Shown.         ");
+            System.out.println("----------------------------------------");
+            map.updateMap();
+            System.out.println("\n\n" + map.pathToString());
+
+            System.out.print("\n\nWould you like to go again?\n");
+            System.out.print("Enter Y or N: ");
+            goAgain = scan.next().charAt(0);
+
+            map.resetNodes();
+            map.resetPath();
+            // Rest start and goal (so old ones don't show when looping)
+            map.setElement(startRow, startColumn, "-");
+            map.setElement(goalRow, goalColumn, "-");
+
+        }while(goAgain == 'Y' || goAgain == 'y');
+
+
+        System.out.println("Bye :')");
 
     }
 }

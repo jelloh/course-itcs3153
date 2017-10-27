@@ -15,6 +15,7 @@ public class Map {
 
     private String[][] map; // Use mostly for displaying map
     private int mapSize = 15; // Default size
+    private String[][] mapPath;
     
     private Node[][] nodes; // Use for A* and generating values
 
@@ -33,6 +34,8 @@ public class Map {
         generateMap();
         nodes = new Node[mapSize][mapSize];
         generateNodes();
+
+        mapPath = new String[mapSize][mapSize];
     }
 
     /** Choose map size */
@@ -42,6 +45,8 @@ public class Map {
         generateMap();
         nodes = new Node[mapSize][mapSize];
         generateNodes();
+
+        mapPath = new String[mapSize][mapSize];
     }
 
     /** Choose map itself */
@@ -51,6 +56,8 @@ public class Map {
 
         nodes = new Node[mapSize][mapSize];
         generateNodes();
+
+        mapPath = new String[mapSize][mapSize];
     }
 
     /** Choose map itself and symbols */
@@ -63,6 +70,8 @@ public class Map {
 
         nodes = new Node[mapSize][mapSize];
         generateNodes();
+
+        mapPath = new String[mapSize][mapSize];
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -117,6 +126,9 @@ public class Map {
     }
 
     public void updateMap(){
+
+        resetPathedMap();
+
         if(path != null){
             int counter = 1;
 
@@ -125,7 +137,7 @@ public class Map {
                Node next = path.get(i);
                int r = next.getRow();
                int c = next.getCol();
-               map[r][c] = ""+ counter;
+               mapPath[r][c] = ""+ counter;
                counter++;
 
             }
@@ -134,11 +146,36 @@ public class Map {
     }
 
     ///////////////////////////////////////////////////////////////////////////
+    // To Reset
+    ///////////////////////////////////////////////////////////////////////////
+
+    private void resetPathedMap(){
+        for(int i = 0; i < mapSize; i++){
+            for(int j = 0; j < mapSize; j++){
+                mapPath[i][j] = map[i][j];
+            }
+        }
+    }
+
+    public void resetNodes(){
+        nodes = new Node[mapSize][mapSize];
+        generateNodes();
+    }
+
+    public void resetPath(){
+        path.clear();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
     // Getters and Setters
     ///////////////////////////////////////////////////////////////////////////
     
     public String[][] getMap() {
         return map;
+    }
+
+    public String[][] getPathedMap() {
+        return mapPath;
     }
 
     public int getMapSize() {
@@ -177,6 +214,25 @@ public class Map {
         return result;
     }
 
+    public String pathToString() {
+        String result = "";
+
+        result += "\t";
+        for (int i = 0; i < mapSize; i++){
+            result += i + "\t";
+        }
+        result += "\n";
+
+        for (int i = 0; i < mapSize; i++) {
+            result += i + "\t";
+            for (int j = 0; j < mapSize; j++) {
+                result += mapPath[i][j] + "\t";
+            }
+            result += "\n";
+        }
+
+        return result;
+    }
 
 
 
